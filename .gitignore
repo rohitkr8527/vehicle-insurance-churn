@@ -5,7 +5,8 @@ __pycache__/
 
 .ipynb_checkpoints
 
-notebookgit/catboost_info/
+catboost_info/
+notebook/catboost_info/
 
 artifact/
 logs/
