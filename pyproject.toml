@@ -1,11 +1,15 @@
 [project]
 name = "src"
 version = "0.0.1"
-description = " MLOps Project"
-authors = [{name = "Rohit Kumar", email = "rohitkr7518@gmail.com"}]
+description = "MLOps Project"
+authors = [
+    { name = "Rohit Kumar", email = "rohitkr7518@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
 
 [tool.setuptools]
-package = {find = {}}
+packages = ["src"]
 
 [tool.setuptools.dynamic]
-dependencies = {file = requirements.txt}
+dependencies = { file = ["requirements.txt"] }
