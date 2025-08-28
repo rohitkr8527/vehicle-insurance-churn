@@ -57,7 +57,7 @@ class SimpleStorageService:
         Returns:
             Union[StringIO, str]: The content of the object, as a StringIO or decoded string.
         """
-        # logging.info("Entered the read_object method of SimpleStorageService class")
+
         try:
             # Read and decode the object content if decode=True
             func = (
@@ -66,7 +66,6 @@ class SimpleStorageService:
             )
             # Convert to StringIO if make_readable=True
             conv_func = lambda: StringIO(func()) if make_readable else func()
-            # logging.info("Exited the read_object method of SimpleStorageService class")
             return conv_func()
         except Exception as e:
             raise MyException(e, sys) from e
