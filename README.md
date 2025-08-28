@@ -1,8 +1,8 @@
 # Vehicle Insurance Interest Prediction System
 
-[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white)](https://www.python.org/) [![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/) [![CatBoost](https://img.shields.io/badge/CatBoost-Boosting-FFCC00?logo=catboost&logoColor=black)](https://catboost.ai/) [![FastAPI](https://img.shields.io/badge/FastAPI-Web%20API-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/) [![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white)](https://www.docker.com/) [![AWS S3](https://img.shields.io/badge/AWS-S3-FF9900?logo=amazon-aws&logoColor=white)](https://aws.amazon.com/s3/) [![MongoDB](https://img.shields.io/badge/MongoDB-Data%20Store-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/) [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
-A comprehensive end-to-end machine learning system for predicting customer interest in vehicle insurance products. This project demonstrates advanced ML & MLOps practices with complete CI/CD pipeline, cloud deployment, and production-ready architecture.
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python\&logoColor=white)](https://www.python.org/) [![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikit-learn\&logoColor=white)](https://scikit-learn.org/) [![CatBoost](https://img.shields.io/badge/CatBoost-Boosting-FFCC00?logo=catboost\&logoColor=black)](https://catboost.ai/) [![FastAPI](https://img.shields.io/badge/FastAPI-Web%20API-009688?logo=fastapi\&logoColor=white)](https://fastapi.tiangolo.com/) [![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker\&logoColor=white)](https://www.docker.com/) [![AWS S3](https://img.shields.io/badge/AWS-S3-FF9900?logo=amazon-aws\&logoColor=white)](https://aws.amazon.com/s3/) [![MongoDB](https://img.shields.io/badge/MongoDB-Data%20Store-47A248?logo=mongodb\&logoColor=white)](https://www.mongodb.com/) [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?logo=githubactions\&logoColor=white)](https://github.com/features/actions)
 
+A comprehensive end-to-end machine learning system for predicting customer interest in vehicle insurance products. This project demonstrates advanced ML & MLOps practices with CI/CD pipeline, cloud deployment, and production-ready architecture.
 
 ---
 
@@ -17,10 +17,9 @@ A comprehensive end-to-end machine learning system for predicting customer inter
 * [API & Web App](#api--web-app)
 * [Model](#model)
 * [MLOps Pipeline](#mlops-pipeline)
-* [Monitoring & Maintenance](#monitoring--maintenance)
 * [Business Impact](#business-impact)
 * [Technology Stack](#technology-stack)
-* [Future Enhancements](#Future Enhancements)
+* [Future Enhancements](#future-enhancements)
 * [Contributing](#contributing)
 * [Contact](#contact)
 
@@ -51,7 +50,7 @@ This system predicts whether a customer is interested in purchasing vehicle insu
 
 **Feature Groups**
 
-* **Demographics:** `Gender`, `Age`, `Driving_License`,`id`
+* **Demographics:** `Gender`, `Age`, `Driving_License`, `id`
 * **Geographic:** `Region_Code`
 * **Historical:** `Previously_Insured`, `Vehicle_Age`, `Vehicle_Damage`
 * **Financial:** `Annual_Premium`
@@ -71,7 +70,7 @@ This system predicts whether a customer is interested in purchasing vehicle insu
 │   │   ├── model_trainer.py
 │   │   ├── model_evaluation.py
 │   │   └── model_pusher.py
-│   ├── pipline/             # Training & prediction pipelines (repo spelling)
+│   ├── pipeline/            # Training & prediction pipelines
 │   │   ├── training_pipeline.py
 │   │   └── prediction_pipeline.py
 │   ├── entity/              # Config & artifact dataclasses
@@ -209,7 +208,7 @@ Content-Type: application/json
 **Python Usage**
 
 ```python
-from src.pipline.prediction_pipeline import VehicleData, VehicleDataClassifier
+from src.pipeline.prediction_pipeline import VehicleData, VehicleDataClassifier
 
 vehicle_data = VehicleData(
     Gender=1, Age=35, Driving_License=1, Region_Code=28.0,
@@ -331,7 +330,6 @@ print(pred)  # 1 = Interested, 0 = Not Interested
 4. Submit a PR with a clear description and context.
 
 ---
-
 
 ## Contact
 
