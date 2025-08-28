@@ -10,3 +10,5 @@ notebook/catboost_info/
 
 artifact/
 logs/
+notebook/
+config/model.yaml
