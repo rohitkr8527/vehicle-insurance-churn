@@ -1,203 +1,216 @@
-# Vehicle Insurance Response Prediction
+# Vehicle Insurance Interest Prediction System
 
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white)](https://www.python.org/) [![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/) [![CatBoost](https://img.shields.io/badge/CatBoost-Boosting-FFCC00?logo=catboost&logoColor=black)](https://catboost.ai/) [![FastAPI](https://img.shields.io/badge/FastAPI-Web%20API-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/) [![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white)](https://www.docker.com/) [![AWS S3](https://img.shields.io/badge/AWS-S3-FF9900?logo=amazon-aws&logoColor=white)](https://aws.amazon.com/s3/) [![MongoDB](https://img.shields.io/badge/MongoDB-Data%20Store-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/) [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
 A comprehensive end-to-end machine learning system for predicting customer interest in vehicle insurance products. This project demonstrates advanced ML & MLOps practices with complete CI/CD pipeline, cloud deployment, and production-ready architecture.
 
----
-
-##  Project Overview
-
-This system predicts whether customers will be interested in purchasing vehicle insurance based on demographic and policy features. Built with modern MLOps practices, it includes data ingestion from MongoDB, model training with CatBoost, AWS S3 model storage, and FastAPI deployment.
-
-### Key Features
-
-* **End-to-end MLOps Pipeline:** Complete workflow from data ingestion to model deployment
-* **Production-Ready Architecture:** Modular design with proper separation of concerns
-* **Cloud Integration:** AWS S3 for model storage and MongoDB for data management
-* **Advanced ML Techniques:** Class imbalance handling with SMOTE-ENN, hyperparameter tuning, CatBoost for model training
-* **Web Interface:** FastAPI application with HTML frontend for real-time predictions
-* **CI/CD Pipeline:** Automated testing and deployment with GitHub Actions
-* **Containerization:** Docker support for consistent deployment environments
 
 ---
 
-## Dataset Information
+## Table of Contents
 
-* **Size:** 381,109 records with 12 features
-* **Target:** Binary classification (`Response`: 1 = Interested, 0 = Not Interested)
-* **Class Distribution:** Highly imbalanced (87.7% negative, 12.3% positive)
-
-### Features
-
-* **Demographics:** Gender, Age, Driving License status
-* **Geographic:** Region Code
-* **Historical:** Previously Insured, Vehicle Age, Vehicle Damage history
-* **Financial:** Annual Premium amount
-* **Operational:** Policy Sales Channel, Vintage (customer relationship duration)
+* [Overview](#overview)
+* [Dataset](#dataset)
+* [Architecture](#architecture)
+* [Quickstart](#quickstart)
+* [Configuration](#configuration)
+* [Docker](#docker)
+* [API & Web App](#api--web-app)
+* [Model](#model)
+* [MLOps Pipeline](#mlops-pipeline)
+* [Monitoring & Maintenance](#monitoring--maintenance)
+* [Business Impact](#business-impact)
+* [Technology Stack](#technology-stack)
+* [Future Enhancements](#Future Enhancements)
+* [Contributing](#contributing)
+* [Contact](#contact)
 
 ---
 
-##  Architecture
+## Overview
 
-```
+This system predicts whether a customer is interested in purchasing vehicle insurance using demographic, policy, and interaction features. It includes: data ingestion from MongoDB, preprocessing and class imbalance handling, CatBoost model training, model artifact versioning in AWS S3, and a FastAPI app (with HTML templates) for real‑time scoring.
+
+**Key Features**
+
+* **End‑to‑end MLOps:** From ingestion to deployment with clear, modular boundaries.
+* **Production‑Ready:** Typed, logged, and testable modules with separation of concerns.
+* **Cloud Integration:** S3 for model storage, MongoDB for data management.
+* **Advanced ML:** SMOTE‑ENN for imbalance, threshold optimization, CatBoost training.
+* **Web & API:** FastAPI service with a simple HTML frontend.
+* **CI/CD:** Automated test/build/deploy via GitHub Actions.
+* **Containerization:** Docker for reproducible environments.
+
+---
+
+## Dataset
+
+* **Records:** 381,109
+* **Features:** 12
+* **Target:** `Response` (1 = Interested, 0 = Not Interested)
+* **Class Distribution:** 87.7% negative, 12.3% positive (highly imbalanced)
+
+**Feature Groups**
+
+* **Demographics:** `Gender`, `Age`, `Driving_License`,`id`
+* **Geographic:** `Region_Code`
+* **Historical:** `Previously_Insured`, `Vehicle_Age`, `Vehicle_Damage`
+* **Financial:** `Annual_Premium`
+* **Operational:** `Policy_Sales_Channel`, `Vintage`
+
+---
+
+## Architecture
+
+```text
 .
 ├── src/
-│   ├── components/          # Core ML pipeline components
+│   ├── components/          # ML pipeline blocks
 │   │   ├── data_ingestion.py
 │   │   ├── data_validation.py
 │   │   ├── data_transformation.py
 │   │   ├── model_trainer.py
 │   │   ├── model_evaluation.py
 │   │   └── model_pusher.py
-│   ├── pipline/             # Training and prediction pipelines
+│   ├── pipline/             # Training & prediction pipelines (repo spelling)
 │   │   ├── training_pipeline.py
 │   │   └── prediction_pipeline.py
-│   ├── entity/              # Configuration and artifact entities
-│   ├── cloud_storage/       # AWS S3 integration
-│   ├── configuration/       # Configuration management
+│   ├── entity/              # Config & artifact dataclasses
+│   ├── cloud_storage/       # AWS S3 helpers
+│   ├── configuration/       # Centralized config mgmt
 │   ├── constants/           # Project constants
-│   ├── exception/           # Custom exception handling
-│   ├── logger/              # Logging utilities
-│   └── utils/               # Utility functions
-├── config/                  # Configuration files
-├── notebook/                # Jupyter notebooks for EDA
-├── templates/               # HTML templates
-├── static/                  # Static files (CSS, JS)
-├── .github/workflows/       # CI/CD pipeline
-├── app.py                   # FastAPI application
-├── Dockerfile               # Container configuration
+│   ├── exception/           # Custom exceptions
+│   ├── logger/              # Structured logging
+│   └── utils/               # Shared utilities
+├── config/                  # YAML & env configs
+├── notebook/                # EDA notebooks
+├── templates/               # Jinja2 templates
+├── static/                  # CSS/JS assets
+├── .github/workflows/       # CI/CD pipelines
+├── app.py                   # FastAPI entrypoint
+├── Dockerfile               # Container image
 └── requirements.txt         # Dependencies
+```
+
+**High‑Level Flow (Mermaid)**
+
+```mermaid
+flowchart LR
+  A[MongoDB] -->|Ingestion| B[Validation]
+  B --> C[Transformation]
+  C --> D[SMOTE-ENN]
+  D --> E[CatBoost Training]
+  E --> F[Evaluation]
+  F -->|Meets threshold| G[S3 Model Registry]
+  G --> H[FastAPI Service]
+  H --> I[Web UI & API]
 ```
 
 ---
 
-## Installation & Setup
+## Quickstart
 
-### Prerequisites
-
-* Python 3.8+
-* MongoDB instance
-* AWS account (for S3 storage)
-
-### Local Development Setup
-
-**Clone the repository**
+### 1) Clone & Setup
 
 ```bash
 git clone https://github.com/rohitkr8527/vehicle-insurance-churn.git
 cd vehicle-insurance-churn
-```
-
-**Create virtual environment**
-
-```bash
 python -m venv venv
 # Linux/macOS
 source venv/bin/activate
 # Windows (PowerShell)
 venv\Scripts\Activate.ps1
-```
-
-**Install dependencies**
-
-```bash
 pip install -r requirements.txt
 ```
 
-### Environment Configuration
+### 2) Environment Variables
 
-Create a `.env` file with the following variables:
+Create a `.env` file:
 
 ```bash
 MONGODB_URL=your_mongodb_connection_string
 AWS_ACCESS_KEY_ID=your_aws_access_key
 AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_DEFAULT_REGION=ap-south-1
+S3_BUCKET=your_s3_bucket_name
 ```
 
-### Run the application
+### 3) Run Locally
 
 ```bash
 python app.py
 ```
 
-The application will be available at **[http://localhost:5000](http://localhost:5000)**
+App will start on **[http://localhost:5000](http://localhost:5000)** (as configured in `app.py`).
 
 ---
 
-## Docker Deployment
+## Docker
 
-**Build Docker image**
+**Build**
 
 ```bash
-docker build -t vehicle-insurance-predictor .
+docker build -t autoinsure-interest-predictor .
 ```
 
-**Run container**
+**Run**
 
 ```bash
-docker run -p 5000:5000 --env-file .env vehicle-insurance-predictor
+docker run -p 5000:5000 --env-file .env autoinsure-interest-predictor
 ```
 
 ---
 
-## Model Performance
+## API & Web App
 
-**Final Model:** CatBoost Classifier
+### Web UI
 
-| Metric            | Value |
-| ----------------- | ----: |
-| ROC-AUC           | 0.854 |
-| Precision         | 0.306 |
-| Recall            | 0.844 |
-| F1-Score          | 0.449 |
-| Optimal Threshold |  0.65 |
+1. Open **[http://localhost:5000](http://localhost:5000)**.
+2. Fill the form with customer details.
+3. Click **Predict** to see probability and binary decision.
 
-### Model Configuration
-
-* **Algorithm:** CatBoost with class weight balancing
-* **Hyperparameters:** 400 iterations, depth = 8, learning\_rate = 0.1
-* **Class Imbalance Handling:** SMOTE-ENN for balanced training
-* **Validation:** 5-fold stratified cross-validation
-
-### Performance Analysis
-
-* **High Recall (84.4%):** Captures most interested customers, crucial for business
-* **Balanced F1-Score:** Optimized threshold balances precision and recall
-* **ROC-AUC (85.4%):** Excellent discrimination between classes
-* **Business Impact:** Reduces marketing costs while maximizing customer acquisition
-
----
-
-## Usage
-
-### Web Interface
-
-1. Navigate to **[http://localhost:5000](http://localhost:5000)**
-2. Fill in customer information form
-3. Click **Predict** to get insurance interest probability
-4. View result as **Response-Yes** or **Response-No**
-
-### API Endpoints
+### REST API
 
 **Health Check**
 
-```bash
+```http
 GET /
 ```
 
-**Make Prediction**
+**Predict (form-encoded)**
 
-```bash
+```http
 POST /
-# Content-Type: application/x-www-form-urlencoded
+Content-Type: application/x-www-form-urlencoded
+
 gender=1&age=35&driving_license=1&region_code=28&previously_insured=0&annual_premium=30000&policy_sales_channel=152&vintage=100&vehicle_age_lt_1_year=0&vehicle_age_gt_2_years=1&vehicle_damage_yes=1
 ```
 
-### Programmatic Usage
+**Predict (JSON)**
+
+```http
+POST /predict
+Content-Type: application/json
+
+{
+  "Gender": 1,
+  "Age": 35,
+  "Driving_License": 1,
+  "Region_Code": 28.0,
+  "Previously_Insured": 0,
+  "Annual_Premium": 30000,
+  "Policy_Sales_Channel": 152.0,
+  "Vintage": 100,
+  "Vehicle_Age_lt_1_Year": 0,
+  "Vehicle_Age_gt_2_Years": 1,
+  "Vehicle_Damage_Yes": 1
+}
+```
+
+**Python Usage**
 
 ```python
 from src.pipline.prediction_pipeline import VehicleData, VehicleDataClassifier
 
-# Create prediction data
 vehicle_data = VehicleData(
     Gender=1, Age=35, Driving_License=1, Region_Code=28.0,
     Previously_Insured=0, Annual_Premium=30000, Policy_Sales_Channel=152.0,
@@ -205,122 +218,125 @@ vehicle_data = VehicleData(
     Vehicle_Damage_Yes=1
 )
 
-# Make prediction
 classifier = VehicleDataClassifier()
 df = vehicle_data.get_vehicle_input_data_frame()
-prediction = classifier.predict(df)
-print(f"Prediction: {prediction}")  # 1: Interested, 0: Not Interested
+pred = classifier.predict(df)
+print(pred)  # 1 = Interested, 0 = Not Interested
 ```
+
+---
+
+## Model
+
+**Final Model:** CatBoostClassifier
+
+| Metric            | Value |
+| ----------------- | ----: |
+| ROC‑AUC           | 0.854 |
+| Precision         | 0.306 |
+| Recall            | 0.844 |
+| F1‑Score          | 0.449 |
+| Optimal Threshold |  0.65 |
+
+**Configuration**
+
+* **Algorithm:** CatBoost with class weighting
+* **Hyperparameters:** `iterations=400`, `depth=8`, `learning_rate=0.1`
+* **Imbalance Handling:** SMOTE‑ENN on training folds
+* **Validation:** Stratified 5‑fold CV
+* **Thresholding:** Operating point selected to balance business precision/recall
+
+**Why CatBoost?**
+
+* Handles categorical features efficiently
+* Strong performance on tabular data
+* Built‑in regularization and fast training
 
 ---
 
 ## MLOps Pipeline
 
-### Training Pipeline
+### Training
 
-1. **Data Ingestion:** Fetch data from MongoDB
-2. **Data Validation:** Schema validation and data quality checks
-3. **Data Transformation:** Feature engineering and preprocessing
-4. **Model Training:** CatBoost training with hyperparameter tuning
-5. **Model Evaluation:** Performance assessment against baseline
-6. **Model Deployment:** Push to AWS S3 if performance threshold met
+1. **Data Ingestion:** Pulls data from MongoDB collections.
+2. **Validation:** Schema checks, missing/invalid detection, basic drift signals.
+3. **Transformation:** Encoding, scaling, feature engineering, and train/val split.
+4. **Resampling:** SMOTE‑ENN applied on the training split only.
+5. **Training:** CatBoost model training with tuned hyperparameters.
+6. **Evaluation:** CV metrics, ROC/PR curves, confusion matrix.
+7. **Model Push:** Uploads artifacts to AWS S3 if performance exceeds baseline.
 
-### Prediction Pipeline
+### Prediction
 
-1. **Data Preprocessing:** Apply same transformations as training
-2. **Model Loading:** Fetch latest model from S3
-3. **Prediction:** Generate probability scores
-4. **Post-processing:** Apply optimal threshold for binary classification
-
-### Monitoring & Maintenance
-
-* Model versioning in AWS S3
-* Performance tracking across deployments
-* Automated retraining triggers
-* Data drift detection capabilities
+1. **Preprocessing:** Same transformers applied to request payload.
+2. **Model Loading:** Latest approved artifact pulled from S3.
+3. **Scoring:** Probability estimates + thresholding to binary response.
 
 ---
 
 ## Business Impact
 
-### Key Business Metrics
+* **Customer Acquisition Cost:** Lower via focused outreach to high‑probability leads.
+* **Marketing Efficiency:** High recall (≈84%) minimizes missed opportunities.
+* **Resource Allocation:** Prioritize sales follow‑ups where conversion likelihood is highest.
 
-* **Customer Acquisition Cost:** Reduced by targeting high-probability prospects
-* **Marketing Efficiency:** 84% recall ensures minimal missed opportunities
-* **Resource Optimization:** Focus sales efforts on interested customers
-* **Revenue Impact:** Improved conversion rates through better targeting
+**Use Cases**
 
-### Use Cases
-
-* **Marketing Campaign Optimization:** Target customers likely to purchase
-* **Sales Resource Allocation:** Prioritize high-probability leads
-* **Customer Segmentation:** Identify distinct customer behavior patterns
-* **Product Development:** Understand factors influencing insurance interest
+* Campaign targeting, lead scoring, segmentation, and product feedback loops.
 
 ---
 
 ## Technology Stack
 
-### Core Technologies
-
-* **ML Framework:** CatBoost, scikit-learn, imbalanced-learn
-* **Web Framework:** FastAPI, Jinja2 templates
-* **Data Processing:** Pandas, NumPy
-* **Visualization:** Matplotlib, Seaborn, Plotly
-* **Cloud Services:** AWS S3, MongoDB
-
-### MLOps Tools
-
-* **Containerization:** Docker
-* **CI/CD:** GitHub Actions
-* **Model Storage:** AWS S3 with versioning
-* **Configuration:** YAML-based config management
-* **Logging:** Python logging with custom handlers
-
-### Development Tools
-
-* **Version Control:** Git with conventional commits
-* **Environment Management:** Virtual environments
-* **Dependency Management:** `pip` with `requirements.txt`
-* **Code Quality:** Type hints, docstrings, error handling
+* **ML:** CatBoost, scikit‑learn, imbalanced‑learn, NumPy, Pandas
+* **Serving:** FastAPI, Jinja2
+* **Visualization:** Matplotlib, Plotly
+* **Storage:** AWS S3 (artifacts), MongoDB (source data)
+* **DevOps:** Docker, GitHub Actions
+* **Config & Logging:** YAML configs, Python logging with custom handlers
 
 ---
 
 ## Future Enhancements
 
-### Technical Improvements
+**Technical**
 
-* Model interpretability with SHAP values
-* Real-time model monitoring and alerting
-* A/B testing framework for model comparison
-* Multi-model ensemble predictions
+* SHAP for interpretability
+* Real‑time monitoring and alerts
+* A/B testing framework
+* Ensemble candidates and stacking
 
-### Business Features
+**Business**
 
-* Customer lifetime value prediction
-* Churn risk scoring integration
+* CLV prediction
+* Churn‑risk integration
 * Dynamic pricing recommendations
-* Marketing campaign ROI tracking
-* Regulatory compliance reporting
+* Campaign ROI tracking
+* Compliance & audit reporting
 
-### Infrastructure
+**Infrastructure**
 
-* Kubernetes deployment for scalability
-* Stream processing for real-time predictions
-* Model serving with TensorFlow Serving
-* Automated data pipeline with Apache Airflow
-* Multi-cloud deployment strategy
+* Kubernetes for horizontal scaling
+* Stream processing for near real‑time scoring
+* Airflow for scheduled training and data pipelines
+* Multi‑cloud strategy
 
 ---
 
-## Contact & Support
+## Contributing
 
-For questions, suggestions, or collaboration opportunities:
+1. Fork the repo and create a feature branch.
+2. Use conventional commits.
+3. Add/extend tests where applicable.
+4. Submit a PR with a clear description and context.
+
+---
+
+
+## Contact
 
 * **GitHub:** `rohitkr8527`
 * **LinkedIn:** `https://www.linkedin.com/in/rohitkmr8527/`
 * **Email:** `rohitkr8527@gmail.com`
 
----
-
-> ⭐ **Star this repository** if you found it helpful! Contributions and feedback are always welcome.
+> ⭐ Star this repository if you found it helpful! Contributions and feedback are always welcome.
