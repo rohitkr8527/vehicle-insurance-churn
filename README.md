@@ -93,15 +93,39 @@ This system predicts whether a customer is interested in purchasing vehicle insu
 **High‑Level Flow (Mermaid)**
 
 ```mermaid
-flowchart LR
-  A[MongoDB] -->|Ingestion| B[Validation]
-  B --> C[Transformation]
-  C --> D[SMOTE-ENN]
-  D --> E[CatBoost Training]
-  E --> F[Evaluation]
-  F -->|Meets threshold| G[S3 Model Registry]
-  G --> H[FastAPI Service]
-  H --> I[Web UI & API]
+flowchart TD
+
+    %% Data Source
+    MDB[(MongoDB - Raw Data)]
+
+    %% Core Pipeline Steps
+    DI[data_ingestion.py]
+    DV[data_validation.py]
+    DP[data_preprocessing.py]
+    MT[model_trainer.py]
+    ME[model_evaluation.py]
+    MP[model_pusher.py]
+
+    %% Pipelines
+    TP[training_pipeline.py]
+    PP[prediction_pipeline.py]
+
+    %% Serving
+    FastAPI[app.py - FastAPI API]
+    Cloud[(S3 Model Storage)]
+
+    %% Flow
+    MDB --> DI --> DV --> DP --> MT --> ME --> MP --> Cloud
+    TP --> DI
+    TP --> DV
+    TP --> DP
+    TP --> MT
+    TP --> ME
+    TP --> MP
+
+    PP --> DP
+    PP --> MP
+    PP --> FastAPI
 ```
 
 ---
